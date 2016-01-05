@@ -1,6 +1,7 @@
 package com.pro.messenger.resources;
 
 import com.pro.messenger.model.Message;
+import com.pro.messenger.service.CommentService;
 import com.pro.messenger.service.MessageService;
 
 import javax.ws.rs.*;
@@ -17,6 +18,8 @@ import java.util.List;
 public class MessagesResource {
 
     private MessageService messageService = new MessageService();
+    // Load comments to the messages via the comment service constructor.
+    private CommentService commentService = new CommentService();
 
     @GET
     public List<Message> getMessages(
@@ -56,6 +59,11 @@ public class MessagesResource {
         messageService.removeMessage(id);
     }
 
+    /**
+     * Getting all comments of a message (subresource).
+     * Path-annotation is not required, since all methodes should be handled via this java methode.
+     * @return CommentResource
+     */
     @Path("/{messageId}/comments")
     public CommentResource getCommentResource() {
         return new CommentResource();

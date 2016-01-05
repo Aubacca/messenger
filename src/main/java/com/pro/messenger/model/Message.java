@@ -1,7 +1,10 @@
 package com.pro.messenger.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created on 29.12.2015.
@@ -13,6 +16,7 @@ public class Message {
     private String message;
     private Date created;
     private String author;
+    private Map<Long, Comment> comments = new HashMap<>();
 
     public Message() {
     }
@@ -56,6 +60,20 @@ public class Message {
         this.author = author;
     }
 
+    @XmlTransient
+    public Map<Long, Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Map<Long, Comment> comments) {
+        this.comments = comments;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (id ^ (id >>> 32));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -64,12 +82,6 @@ public class Message {
         Message message = (Message) o;
 
         return id == message.id;
-
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) (id ^ (id >>> 32));
     }
 
     @Override
@@ -79,6 +91,9 @@ public class Message {
                 ", message='" + message + '\'' +
                 ", created=" + created +
                 ", author='" + author + '\'' +
+/*
+                ", comments=" + comments +
+*/
                 '}';
     }
 }
