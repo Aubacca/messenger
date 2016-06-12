@@ -1,10 +1,12 @@
 package com.pro.messenger.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
 /**
  * Created on 05.01.2016.
  */
+@XmlRootElement
 public class Comment {
 
     private long id;

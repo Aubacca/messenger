@@ -4,9 +4,7 @@ import com.pro.messenger.DatabaseMock;
 import com.pro.messenger.model.Comment;
 import com.pro.messenger.model.Message;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created on 05.01.2016.
@@ -14,6 +12,8 @@ import java.util.Map;
 public class CommentService {
 
     private Map<Long, Message> messages = DatabaseMock.getMessages();
+
+    private Map<Long, Comment> comments = new HashMap<>();
 
     public CommentService() {
         addComment(12, new Comment(1, "metus sit amet", "Erich"));
@@ -318,24 +318,34 @@ public class CommentService {
         addComment(53, new Comment(300, "rutrum magna. Cras convallis convallis dolor.", "Ralph"));
     }
 
+    private void printComments(Map mp) {
+        Iterator it = mp.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            System.out.println(pair.getKey() + " = " + pair.getValue());
+            it.remove(); // avoids a ConcurrentModificationException
+        }
+    }
+
     public List<Comment> getComments (long messageId){
-        Map<Long, Comment> comments = messages.get(messageId).getComments();
+//        Map<Long, Comment> comments = messages.get(messageId).getComments();
+        printComments(comments);
         return new ArrayList<>(comments.values());
     }
 
     public Comment getComment (long messageId, long commentId) {
-        Map<Long, Comment> comments = messages.get(messageId).getComments();
+//        Map<Long, Comment> comments = messages.get(messageId).getComments();
         return comments.get(commentId);
     }
 
     public Comment addComment(long messageId, Comment comment) {
-        Map<Long, Comment> comments = messages.get(messageId).getComments();
+//        Map<Long, Comment> comments = messages.get(messageId).getComments();
         comments.put(comment.getId(), comment);
         return comment;
     }
 
     public Comment updateComment (long messageId, Comment comment) {
-        Map<Long, Comment> comments = messages.get(messageId).getComments();
+//        Map<Long, Comment> comments = messages.get(messageId).getComments();
         if (comment.getId() == 0) {
             return null;
         }
@@ -344,8 +354,7 @@ public class CommentService {
     }
 
     public Comment removeComment (long messageId, long commentId) {
-        Map<Long, Comment> comments = messages.get(messageId).getComments();
+//        Map<Long, Comment> comments = messages.get(messageId).getComments();
         return comments.remove(commentId);
     }
-
 }

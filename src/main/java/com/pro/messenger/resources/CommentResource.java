@@ -15,12 +15,23 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class CommentResource {
 
+    // Load comments to the messages via the comment service constructor.
     private CommentService commentService = new CommentService();
 
     @GET
+    public String getComments(@PathParam("messageId") long messageId) {
+
+        for (Object temp : commentService.getComments(messageId)) {
+            System.out.println(temp);
+        }
+
+        return "All comments for message " + messageId;
+    }
+/*
     public List<Comment> getComments(@PathParam("messageId") long messageId) {
         return commentService.getComments(messageId);
     }
+*/
 
     @GET
     @Path("/{commentId}")

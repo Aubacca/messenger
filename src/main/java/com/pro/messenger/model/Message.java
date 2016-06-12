@@ -2,9 +2,7 @@ package com.pro.messenger.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created on 29.12.2015.
@@ -16,7 +14,7 @@ public class Message {
     private String message;
     private Date created;
     private String author;
-    private Map<Long, Comment> comments = new HashMap<>();
+    private List<String> likes;
 
     public Message() {
     }
@@ -26,6 +24,7 @@ public class Message {
         this.message = message;
         this.author = author;
         setCreated(new Date());
+        setLikes();
     }
 
     public long getId() {
@@ -60,13 +59,14 @@ public class Message {
         this.author = author;
     }
 
-    @XmlTransient
-    public Map<Long, Comment> getComments() {
-        return comments;
+    public List<String> getLikes () {
+        return likes;
     }
 
-    public void setComments(Map<Long, Comment> comments) {
-        this.comments = comments;
+    public void setLikes() {
+        likes = new ArrayList<>();
+        likes.add("Tom");
+        likes.add("Jerry");
     }
 
     @Override
@@ -91,9 +91,7 @@ public class Message {
                 ", message='" + message + '\'' +
                 ", created=" + created +
                 ", author='" + author + '\'' +
-/*
-                ", comments=" + comments +
-*/
+                ", likes='" + getLikes() + '\'' +
                 '}';
     }
 }

@@ -18,8 +18,6 @@ import java.util.List;
 public class MessagesResource {
 
     private MessageService messageService = new MessageService();
-    // Load comments to the messages via the comment service constructor.
-    private CommentService commentService = new CommentService();
 
     @GET
     public List<Message> getMessages(
@@ -29,7 +27,13 @@ public class MessagesResource {
         if (indexFrom != null) {
             return messageService.getMessagesPaginated(indexFrom, indexTo);
         }
-        return messageService.getMessages();
+        List messages = messageService.getMessages();
+
+        for (Object temp : messages) {
+            System.out.println(temp);
+        }
+
+        return messages;
     }
 
     @GET
@@ -42,7 +46,6 @@ public class MessagesResource {
     public Message addMessages(Message message) {
         return  messageService.addMessage(message);
     }
-
     @PUT
     @Path("/{messageId}")
     public Message updateMessages(
